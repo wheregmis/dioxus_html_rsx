@@ -1,0 +1,30 @@
+[package]
+name = "dioxus_html_rsx"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dioxus = { git = "https://github.com/DioxusLabs/dioxus.git", features = [
+    "fullstack",
+    "router",
+] }
+axum = { version = "*", optional = true }
+tokio = { version = "*", features = ["full"], optional = true }
+serde = { version = "*", features = ["derive"] }
+manganis = { git = "https://github.com/DioxusLabs/manganis.git", branch = "main" }
+
+[features]
+default = []
+server = ["axum", "dioxus/axum"]
+web = ["dioxus/web"]
+
+
+[profile.dev]
+split-debuginfo = "unpacked"
+opt-level = 0
+debug = 0
+strip = "debuginfo"
+incremental = true
+overflow-checks = false
+lto = "thin"
+panic = "unwind"
