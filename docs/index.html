@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <meta charset="UTF-8" />
+    <title>Dioxus | HTML to RSX Converterdioxus | ⛺</title>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.0.0/github-markdown-light.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // tailwind.config = {
+        //     theme: {
+        //         extend: {
+        //             colors: {
+        //                 clifford: "#da373d",
+        //             },
+        //         },
+        //     },
+        // };
+    </script>
+    <style>
+    </style>
+<link rel="stylesheet" href="/tailwind.css">
+</head>
+
+<body>
+    <div id="main" class=""></div>
+    <script type="module">
+        import init from "/./assets/dioxus/dioxus_html_rsx.js";
+        init("/./assets/dioxus/dioxus_html_rsx_bg.wasm").then((wasm) => {
+            if (wasm.__wbindgen_start == undefined) {
+                wasm.main();
+            }
+        });
+    </script>
+</body>
+
+</html>
