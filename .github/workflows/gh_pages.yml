@@ -24,12 +24,12 @@ jobs:
           use-tool-cache: true
       - uses: actions/checkout@v2
       - name: Build
-        run:  dx build --release --platform web && cp dist/index.html dist/404.html
+        run:  dx build --release --platform web
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: dist # The folder the action should deploy.
+          folder: target/dx/dioxus_html_rsx/release/web/public # The folder the action should deploy.
           target-folder: docs
           # clean: false # don't scrub docs
 
