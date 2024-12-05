@@ -4,19 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-dioxus = { git = "https://github.com/DioxusLabs/dioxus.git", features = [
-    "fullstack",
-    "router",
-] }
-axum = { version = "*", optional = true }
-tokio = { version = "*", features = ["full"], optional = true }
-serde = { version = "*", features = ["derive"] }
-manganis = { git = "https://github.com/DioxusLabs/manganis.git", branch = "main" }
 
-[features]
-default = []
-server = ["axum", "dioxus/axum"]
-web = ["dioxus/web"]
+dioxus = { version = "0.6.0-rc.0", features = ["web"] }
+serde = { version = "1.0.214", features = ["derive"] }
+# manganis = { git = "https://github.com/DioxusLabs/manganis.git", branch = "main" }
+dioxus-rsx-rosetta = { version = "0.6.0-rc.0" }
+dioxus-autofmt = { version = "0.6.0-rc.0" }
 
 
 [profile.dev]
