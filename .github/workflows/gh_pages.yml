@@ -17,14 +17,12 @@ jobs:
           target: wasm32-unknown-unknown
       - uses: Swatinem/rust-cache@v1
       - uses: ilammy/setup-nasm@v1
-      - uses: actions-rs/install@v0.1
-        with:
-          crate: dioxus-cli
-          version: 0.6.0-rc.0
-          use-tool-cache: true
+      - uses: taiki-e/install-action@cargo-binstall
+      - name: Install dioxus-cli
+        run: cargo binstall -y dioxus-cli@0.6.0
       - uses: actions/checkout@v2
       - name: Build
-        run:  dx build --release --platform web
+        run: dx build --release --platform web
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:

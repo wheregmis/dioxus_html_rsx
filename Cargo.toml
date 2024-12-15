@@ -5,11 +5,10 @@ edition = "2021"
 
 [dependencies]
 
-dioxus = { version = "0.6.0-rc.0", features = ["web"] }
-serde = { version = "1.0.214", features = ["derive"] }
-# manganis = { git = "https://github.com/DioxusLabs/manganis.git", branch = "main" }
-dioxus-rsx-rosetta = { version = "0.6.0-rc.0" }
-dioxus-autofmt = { version = "0.6.0-rc.0" }
+dioxus = { version = "0.6.0", features = ["web"] }
+serde = { version = "1.0.216", features = ["derive"] }
+dioxus-rsx-rosetta = { version = "0.6.0" }
+dioxus-autofmt = { version = "0.6.0" }
 
 
 [profile.dev]

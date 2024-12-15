@@ -1,52 +1,125 @@
-# Dioxus HTML RSX
+# HTML to RSX Converter for Dioxus
 
-This project is a Dioxus-based application with support for both server-side rendering (SSR) and web assembly (WASM) targets.
+VISIT: https://wheregmis.github.io/dioxus_html_rsx/
 
-## Getting Started
+## Overview
 
-### Prerequisites
-
-- [Rust](https://www.rust-lang.org/tools/install)
-- [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)
-
-### Building the Project
-
-To build the project, run:
-
-```sh
-just run
-```
-
+The HTML to RSX Converter is a specialized Rust tool designed to transform standard HTML markup into Dioxus's RSX (React-like Syntax) format. This utility helps Rust developers using Dioxus to easily migrate existing HTML templates or convert static HTML components into Dioxus-compatible RSX code.
 
 ## Features
-Server-side Rendering (SSR): Enabled with the server feature.
+- 🦀 Pure Rust implementation
+- 🔄 Automatic conversion of HTML to Dioxus RSX
+- 🧩 Handles complex nested structures
+- 📝 Preserves original formatting
+- 🚀 Efficient parsing and transformation using native dioxus-rosetta
+- 🛡️ Robust error handling
 
-Web Assembly (WASM): Enabled with the web feature.
+## Prerequisites
 
-#### Dependencies
+- Rust (1.70.0 or higher)
+- Dioxus CLI (`dx`)
+  ```bash
+  cargo install dioxus-cli
+  ```
 
-dioxus: Core library for building user interfaces.
+## Running the Project
+Clone the repository and do the following
+```bash
+# Serve the project locally with hot reloading
+dx serve --platform web
 
-axum: Optional, for server-side rendering.
+# Build for production
+dx build
 
-tokio: Optional, for asynchronous runtime.
+# Build for web
+dx build --web
 
-serde: For serialization and deserialization.
+# Build for desktop
+dx build --desktop
+```
 
-manganis: Additional utilities.
+## Conversion Rules
 
-#### Configuration
-The project is configured using the following files:
+The converter applies the following Dioxus-specific transformation rules:
 
-Cargo.toml: Rust package configuration.
+1. Converts `class` to `class`
+2. Transforms inline styles to Dioxus style syntax
+3. Handles self-closing tags
+4. Manages attribute name conversions specific to Dioxus RSX
 
-Dioxus.toml: Dioxus-specific configuration.
+## Examples
 
-tailwind.config.js: Tailwind CSS configuration.
+### Before Conversion
+```html
+<div class="collapse bg-base-200">
+  <input type="radio" name="my-accordion-1" checked="checked" />
+  <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>
+  <div class="collapse-content">
+    <p>hello</p>
+  </div>
+</div>
+<div class="collapse bg-base-200">
+  <input type="radio" name="my-accordion-1" />
+  <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>
+  <div class="collapse-content">
+    <p>hello</p>
+  </div>
+</div>
+<div class="collapse bg-base-200">
+  <input type="radio" name="my-accordion-1" />
+  <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>
+  <div class="collapse-content">
+    <p>hello</p>
+  </div>
+</div>
+```
 
+### After Conversion
+```rust
+div { class: "collapse bg-base-200",
+    input { r#type: "radio", name: "my-accordion-1", checked: "checked" }
+    div { class: "collapse-title text-xl font-medium", "Click to open this one and close others" }
+    div { class: "collapse-content",
+        p { "hello" }
+    }
+}
+div { class: "collapse bg-base-200",
+    input { r#type: "radio", name: "my-accordion-1" }
+    div { class: "collapse-title text-xl font-medium", "Click to open this one and close others" }
+    div { class: "collapse-content",
+        p { "hello" }
+    }
+}
+div { class: "collapse bg-base-200",
+    input { name: "my-accordion-1", r#type: "radio" }
+    div { class: "collapse-title text-xl font-medium", "Click to open this one and close others" }
+    div { class: "collapse-content",
+        p { "hello" }
+    }
+}
+```
 
-### License
-This project is licensed under the MIT License.
+## Contributing
 
+Contributions are welcome! 
 
+### How to Contribute
 
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Run tests (`cargo test`)
+5. Push to the branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request
+
+## License
+
+MIT License
+
+## Support
+
+If you encounter any problems or have suggestions, please file an issue on our GitHub repository's issue tracker.
+
+---
+
+**Happy Dioxus Development! 🦀🚀**
