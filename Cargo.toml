@@ -5,10 +5,10 @@ edition = "2021"
 
 [dependencies]
 
-dioxus = { version = "0.6.0", features = ["web"] }
+dioxus = { version = "0.6.1", features = ["web"] }
 serde = { version = "1.0.216", features = ["derive"] }
-dioxus-rsx-rosetta = { version = "0.6.0" }
-dioxus-autofmt = { version = "0.6.0" }
+dioxus-rsx-rosetta = { version = "0.6.1" }
+dioxus-autofmt = { version = "0.6.1" }
 
 
 [profile.dev]
