@@ -30,9 +30,9 @@
     <div id="main" class=""></div>
     <script>
         // We can't use a module script here because we need to start the script immediately when streaming
-        import("/./wasm/dioxus_html_rsx.js").then(
+        import("/./dioxus_html_rsx/wasm/dioxus_html_rsx.js").then(
             ({ default: init }) => {
-                init("/./wasm/dioxus_html_rsx.wasm").then((wasm) => {
+                init("/./dioxus_html_rsx/wasm/dioxus_html_rsx.wasm").then((wasm) => {
                     if (wasm.__wbindgen_start == undefined) {
                         wasm.main();
                     }
