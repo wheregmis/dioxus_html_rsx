@@ -27,13 +27,17 @@
 
 <body>
     <div id="main" class=""></div>
-    <script type="module">
-        import init from "/{base_path}/assets/dioxus/{app_name}.js";
-        init("/{base_path}/assets/dioxus/{app_name}_bg.wasm").then((wasm) => {
-            if (wasm.__wbindgen_start == undefined) {
-                wasm.main();
+    <script>
+        // We can't use a module script here because we need to start the script immediately when streaming
+        import("/./wasm/{app_name}.js").then(
+            ({ default: init }) => {
+                init("/./wasm/{app_name}.wasm").then((wasm) => {
+                    if (wasm.__wbindgen_start == undefined) {
+                        wasm.main();
+                    }
+                });
             }
-        });
+        );
     </script>
 </body>
 
