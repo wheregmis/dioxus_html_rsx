@@ -160,7 +160,6 @@ fn app() -> Element {
     let mut html_input = use_signal(String::new);
     let mut rsx_output = use_signal(|| "Your Generated RSX".to_string());
     let mut copied = use_signal(|| false);
-    let mut preview_mode = use_signal(|| false);
 
     // Add CSS for syntax highlighting
     let css = r#"/* Tailwind-like utility classes for syntax highlighting */
@@ -240,40 +239,12 @@ pre {
                             "HTML Input"
                         }
 
-                        // Container for the input area
-                        div { style: "position: relative; width: 100%; height: 60vh;",
-                            // Show either the textarea or the syntax-highlighted preview
-                            if !preview_mode() {
-                                // Regular textarea for editing
-                                textarea {
-                                    value: "{html_input}",
-                                    oninput: move |e| html_input.set(e.value().clone()),
-                                    placeholder: "Paste your HTML code here...",
-                                    style: "width: 100%; height: 100%; padding: 0.75rem; background-color: #333333; color: #FFFFFF; border: 1px solid #444444; border-radius: 0.25rem; font-family: monospace; resize: none; line-height: 1.5; font-size: 0.95rem; transition: border-color 0.2s ease-in-out; outline: none;",
-                                }
-                            } else {
-                                // Syntax highlighted preview
-                                div { style: "width: 100%; height: 100%; padding: 0.75rem; background-color: #333333; border: 1px solid #444444; border-radius: 0.25rem; overflow: auto;",
-                                    CodeBlock {
-                                        code: html_input().to_string(),
-                                        language: "html".to_string(),
-                                    }
-                                }
-                            }
-
-                            // Preview toggle button (positioned in the top-right corner)
-                            button {
-                                onclick: move |_| preview_mode.set(!preview_mode()),
-                                style: "position: absolute; top: 0.5rem; right: 0.5rem; background-color: #333333; color: #FFFFFF; border: none; border-radius: 0.25rem; padding: 0.25rem 0.5rem; cursor: pointer; display: flex; align-items: center; gap: 0.25rem; font-size: 0.8rem; z-index: 10;",
-
-                                if preview_mode() {
-                                    span { style: "font-size: 1rem;", "📝" }
-                                    "Edit"
-                                } else {
-                                    span { style: "font-size: 1rem;", "👁️" }
-                                    "Preview"
-                                }
-                            }
+                        // Simple textarea for HTML input
+                        textarea {
+                            value: "{html_input}",
+                            oninput: move |e| html_input.set(e.value().clone()),
+                            placeholder: "Paste your HTML code here...",
+                            style: "width: 100%; height: 60vh; padding: 0.75rem; background-color: #333333; color: #FFFFFF; border: 1px solid #444444; border-radius: 0.25rem; font-family: monospace; resize: none; line-height: 1.5; font-size: 0.95rem; transition: border-color 0.2s ease-in-out; outline: none;",
                         }
 
                         div { style: "display: flex; justify-content: center; margin-top: 0.75rem;",

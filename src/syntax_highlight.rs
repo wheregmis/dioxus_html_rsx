@@ -15,8 +15,14 @@ fn highlight_html_syntax(code: &str) -> String {
 
     for i in 0..chars.len() {
         // Handle HTML comments
-        if !in_tag && !in_comment && i + 3 < chars.len() && 
-           chars[i] == '<' && chars[i+1] == '!' && chars[i+2] == '-' && chars[i+3] == '-' {
+        if !in_tag
+            && !in_comment
+            && i + 3 < chars.len()
+            && chars[i] == '<'
+            && chars[i + 1] == '!'
+            && chars[i + 2] == '-'
+            && chars[i + 3] == '-'
+        {
             // Start of comment
             if token_start < i {
                 result.push_str(&code[token_start..i]);
@@ -27,9 +33,14 @@ fn highlight_html_syntax(code: &str) -> String {
             continue;
         }
 
-        if in_comment && i + 2 < chars.len() && chars[i] == '-' && chars[i+1] == '-' && chars[i+2] == '>' {
+        if in_comment
+            && i + 2 < chars.len()
+            && chars[i] == '-'
+            && chars[i + 1] == '-'
+            && chars[i + 2] == '>'
+        {
             // End of comment
-            result.push_str(&code[token_start..i+3]);
+            result.push_str(&code[token_start..i + 3]);
             result.push_str("</span>");
             token_start = i + 3;
             in_comment = false;
@@ -41,7 +52,7 @@ fn highlight_html_syntax(code: &str) -> String {
         }
 
         // Handle tag opening
-        if !in_tag && chars[i] == '<' && i + 1 < chars.len() && chars[i+1] != '!' {
+        if !in_tag && chars[i] == '<' && i + 1 < chars.len() && chars[i + 1] != '!' {
             if token_start < i {
                 // Text content before tag
                 let content = &code[token_start..i];
@@ -144,11 +155,11 @@ fn highlight_html_syntax(code: &str) -> String {
 fn highlight_tag_content(content: &str) -> String {
     let mut result = String::new();
     let parts: Vec<&str> = content.split_whitespace().collect();
-    
+
     if parts.is_empty() {
         return content.to_string();
     }
-    
+
     // First part is the tag name
     let tag_name = parts[0];
     if tag_name.starts_with('/') {
@@ -158,36 +169,42 @@ fn highlight_tag_content(content: &str) -> String {
         // Opening tag
         result.push_str(&format!("<span class='text-blue-400'>{}</span>", tag_name));
     }
-    
+
     // Rest are attributes
     let mut current_pos = tag_name.len();
     for i in 1..parts.len() {
         // Find the position of this part in the original content
         let part_pos = content[current_pos..].find(parts[i]).unwrap() + current_pos;
-        
+
         // Add any content between the last part and this one
         result.push_str(&content[current_pos..part_pos]);
         current_pos = part_pos + parts[i].len();
-        
+
         // Highlight attribute name
         if parts[i].contains('=') {
             let attr_parts: Vec<&str> = parts[i].split('=').collect();
-            result.push_str(&format!("<span class='text-purple-400'>{}</span>=", attr_parts[0]));
-            
+            result.push_str(&format!(
+                "<span class='text-purple-400'>{}</span>=",
+                attr_parts[0]
+            ));
+
             // If there's a value part after the equals
             if attr_parts.len() > 1 {
                 result.push_str(attr_parts[1]);
             }
         } else {
-            result.push_str(&format!("<span class='text-purple-400'>{}</span>", parts[i]));
+            result.push_str(&format!(
+                "<span class='text-purple-400'>{}</span>",
+                parts[i]
+            ));
         }
     }
-    
+
     // Add any remaining content
     if current_pos < content.len() {
         result.push_str(&content[current_pos..]);
     }
-    
+
     result
 }
 
@@ -271,7 +288,10 @@ fn highlight_rsx_syntax(code: &str) -> String {
 
             // Add the separator character with special coloring for braces
             if chars[i] == '{' || chars[i] == '}' {
-                result.push_str(&format!("<span class='text-yellow-500'>{}</span>", chars[i]));
+                result.push_str(&format!(
+                    "<span class='text-yellow-500'>{}</span>",
+                    chars[i]
+                ));
             } else {
                 result.push(chars[i]);
             }
@@ -309,8 +329,11 @@ fn highlight_rsx_token(token: &str, in_string: bool) -> String {
     }
 
     // Handle RSX keywords
-    let keywords = ["rsx", "div", "span", "p", "h1", "h2", "h3", "h4", "h5", "h6", "a", "button", "input", "textarea", "form", "img", "nav", "footer", "header", "main", "section", "article"];
-    
+    let keywords = [
+        "rsx", "div", "span", "p", "h1", "h2", "h3", "h4", "h5", "h6", "a", "button", "input",
+        "textarea", "form", "img", "nav", "footer", "header", "main", "section", "article",
+    ];
+
     if keywords.contains(&clean_token) {
         return format!("<span class='text-blue-400'>{}</span>", token);
     }
@@ -326,10 +349,7 @@ fn highlight_rsx_token(token: &str, in_string: bool) -> String {
     }
 
     // Handle numbers
-    if clean_token
-        .chars()
-        .all(|c| c.is_ascii_digit() || c == '.')
-    {
+    if clean_token.chars().all(|c| c.is_ascii_digit() || c == '.') {
         return format!("<span class='text-orange-400'>{}</span>", token);
     }
 
@@ -359,6 +379,7 @@ pub fn CodeBlock(code: String, language: String) -> Element {
                 "language-{} overflow-x-auto rounded-lg bg-dark-300/50 p-4 font-mono text-sm",
                 language,
             ),
+            style: "white-space: pre;", // Ensure whitespace is preserved
             dangerous_inner_html: "{highlighted}",
         }
     }
