@@ -334,14 +334,7 @@ pre {
                         style: "color: #CD7F32; text-decoration: none; font-weight: bold; transition: color 0.2s ease-in-out;",
                         "Dioxus"
                     }
-                    " • "
-                    a {
-                        href: "https://github.com/DioxusLabs/dioxus-motion",
-                        target: "_blank",
-                        style: "color: #CD7F32; text-decoration: none; font-weight: bold; transition: color 0.2s ease-in-out;",
-                        "Dioxus-motion"
-                    }
-                    " • Rust-themed Dark UI"
+                    " ❤️ "
                 }
 
                 div { style: "font-size: 0.9rem;",
