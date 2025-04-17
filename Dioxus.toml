@@ -1,38 +1,24 @@
 [application]
-name = "Dioxus | HTML to RSX Converter"
-
-# Dioxus App Default Platform
-# desktop, web, mobile, ssr
-default_platform = "web"
-
-# `build` & `serve` dist path
-out_dir = "dist"
-
-# resource (public) file folder
-asset_dir = "static"
 
 [web.app]
 
-# base_path = "."
+# HTML title tag content
+# HTML title tag content
+title = "Dioxus HTML to RSX Converter"
 
-
-[web.watcher]
-
-watch_path = ["src", "assets", "index.html"]
-index_on_404 = true
+# base_path = "dioxus-html-rsx"
 
 # include `assets` in web platform
 [web.resource]
 
-# CSS style file
-style = ["/tailwind.css"]
+# Additional CSS style files
+style = []
 
-# Javascript code file
+# Additional JavaScript files
 script = []
 
-assets = ["static"]
-
 [web.resource.dev]
+
 
 # Javascript code file
 # serve: [dev-server] only

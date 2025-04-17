@@ -1,22 +1,51 @@
 [package]
 name = "dioxus_html_rsx"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
+dioxus = { version = "0.6.3" }
+serde = { version = "1.0.219", features = ["derive"] }
+dioxus-rsx-rosetta = { version = "0.6.2" }
+dioxus-autofmt = { version = "0.6.2" }
+wasm-bindgen = { version = "0.2.100", optional = true }
+js-sys = { version = "0.3.77", optional = true }
+web-sys = { version = "0.3.77", features = [
+    "Window",
+    "Navigator",
+    "Clipboard",
+    "Document",
+    "HtmlTextAreaElement",
+    "Element",
+    "HtmlElement",
+], optional = true }
 
-dioxus = { version = "0.6.1", features = ["web"] }
-serde = { version = "1.0.216", features = ["derive"] }
-dioxus-rsx-rosetta = { version = "0.6.1" }
-dioxus-autofmt = { version = "0.6.1" }
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2.100"
+js-sys = "0.3.77"
+web-sys = { version = "0.3.77", features = [
+    "Window",
+    "Navigator",
+    "Clipboard",
+    "Document",
+    "HtmlTextAreaElement",
+    "Element",
+    "HtmlElement",
+] }
+
+[features]
+default = ["web"]
+web = ["dioxus/web", "wasm-bindgen", "web-sys", "js-sys"]
+desktop = ["dioxus/desktop"]
+mobile = ["dioxus/mobile"]
 
 
-[profile.dev]
-split-debuginfo = "unpacked"
-opt-level = 0
-debug = 0
-strip = "debuginfo"
-incremental = true
-overflow-checks = false
-lto = "thin"
-panic = "unwind"
+[profile.wasm-dev]
+inherits = "dev"
+opt-level = 1
+
+[profile.server-dev]
+inherits = "dev"
+
+[profile.android-dev]
+inherits = "dev"
