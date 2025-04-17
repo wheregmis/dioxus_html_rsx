@@ -6,7 +6,7 @@
 # HTML title tag content
 title = "Dioxus HTML to RSX Converter"
 
-base_path = "dioxus-html-rsx"
+base_path = "dioxus_html_rsx"
 
 # include `assets` in web platform
 [web.resource]
