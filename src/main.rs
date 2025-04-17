@@ -161,7 +161,7 @@ fn app() -> Element {
     let mut rsx_output = use_signal(|| "Your Generated RSX".to_string());
     let mut copied = use_signal(|| false);
 
-    // Add CSS for syntax highlighting
+    // Add CSS for syntax highlighting and responsive layout
     let css = r#"/* Tailwind-like utility classes for syntax highlighting */
 .text-blue-400 { color: #60a5fa; }
 .text-blue-500 { color: #3b82f6; }
@@ -191,11 +191,48 @@ pre {
     margin: 0;
     padding: 0;
 }
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    .grid-layout {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Ensure full width layout on all screen sizes */
+body, html {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    margin: 0;
+    padding: 0;
+}
+
+.content-container {
+    width: 100%;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow-x: hidden;
+}
+
+.grid-layout {
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.card-container {
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow-x: hidden;
+}
 "#;
 
     rsx! {
         style { dangerous_inner_html: "{css}" }
-        div { style: "width: 100%; height: 100%; background-color: #1A1A1A; color: #FFFFFF; min-height: 100vh; display: flex; flex-direction: column;",
+        div { style: "width: 100%; height: 100%; background-color: #1A1A1A; color: #FFFFFF; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden;",
             // Navbar
             nav { style: "background-color: #222222; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333333; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);",
                 // Logo/Title
@@ -225,12 +262,18 @@ pre {
             }
 
             // Main content
-            main { style: "flex: 1; padding: 1.5rem; max-width: 1400px; width: 100%; margin: 0 auto;",
+            main {
+                class: "content-container",
+                style: "flex: 1; padding: 0; width: 100%; box-sizing: border-box;",
                 // Responsive grid - will stack on smaller screens
-                div { style: "display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 1.5rem;",
+                div {
+                    class: "grid-layout",
+                    style: "display: grid; grid-template-columns: 1fr 1fr; gap: 2px;",
 
                     // Input section
-                    div { style: "background-color: #222222; border: 1px solid #333333; border-radius: 0.5rem; padding: 1.25rem; position: relative; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);",
+                    div {
+                        class: "card-container",
+                        style: "background-color: #222222; border: 1px solid #333333; border-radius: 0.5rem; padding: 1rem; position: relative; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); box-sizing: border-box;",
                         // Rust-themed accent line
                         div { style: "position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, #CD7F32, #FFA07A); border-top-left-radius: 0.5rem; border-bottom-left-radius: 0.5rem;" }
 
@@ -244,7 +287,7 @@ pre {
                             value: "{html_input}",
                             oninput: move |e| html_input.set(e.value().clone()),
                             placeholder: "Paste your HTML code here...",
-                            style: "width: 100%; height: 60vh; padding: 0.75rem; background-color: #333333; color: #FFFFFF; border: 1px solid #444444; border-radius: 0.25rem; font-family: monospace; resize: none; line-height: 1.5; font-size: 0.95rem; transition: border-color 0.2s ease-in-out; outline: none;",
+                            style: "width: 100%; height: 60vh; padding: 0.75rem; background-color: #333333; color: #FFFFFF; border: 1px solid #444444; border-radius: 0.25rem; font-family: monospace; resize: none; line-height: 1.5; font-size: 0.95rem; transition: border-color 0.2s ease-in-out; outline: none; box-sizing: border-box;",
                         }
 
                         div { style: "display: flex; justify-content: center; margin-top: 0.75rem;",
@@ -270,7 +313,9 @@ pre {
                     }
 
                     // Output section
-                    div { style: "background-color: #222222; border: 1px solid #333333; border-radius: 0.5rem; padding: 1.25rem; position: relative; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);",
+                    div {
+                        class: "card-container",
+                        style: "background-color: #222222; border: 1px solid #333333; border-radius: 0.5rem; padding: 1rem; position: relative; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); box-sizing: border-box;",
                         // Rust-themed accent line
                         div { style: "position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, #CD7F32, #FFA07A); border-top-left-radius: 0.5rem; border-bottom-left-radius: 0.5rem;" }
 
@@ -279,7 +324,7 @@ pre {
                             "RSX Output"
                         }
 
-                        div { style: "width: 100%; height: 60vh; padding: 0.5rem; background-color: #1A1A1A; color: #FFFFFF; border: 1px solid #333333; border-radius: 0.25rem; overflow: auto; position: relative;",
+                        div { style: "width: 100%; height: 60vh; padding: 0.5rem; background-color: #1A1A1A; color: #FFFFFF; border: 1px solid #333333; border-radius: 0.25rem; overflow: auto; position: relative; box-sizing: border-box;",
                             // Use the CodeBlock component for syntax highlighting
                             CodeBlock {
                                 code: rsx_output().to_string(),
@@ -295,7 +340,7 @@ pre {
                                     #[cfg(feature = "web")]
                                     {
                                         use wasm_bindgen::prelude::*;
-                                        let mut copied_clone = copied.clone();
+                                        let mut copied_clone = copied;
                                         let closure = Closure::once_into_js(move || {
                                             copied_clone.set(false);
                                         });
@@ -334,7 +379,18 @@ pre {
                         style: "color: #CD7F32; text-decoration: none; font-weight: bold; transition: color 0.2s ease-in-out;",
                         "Dioxus"
                     }
-                    " ❤️ "
+                    ", "
+                    a {
+                        href: "https://github.com/DioxusLabs/dioxus-rsx-rosetta",
+                        target: "_blank",
+                        style: "color: #CD7F32; text-decoration: none; font-weight: bold; transition: color 0.2s ease-in-out;",
+                        "dioxus-rsx-rosetta"
+                    }
+                }
+
+                div { style: "margin-bottom: 1rem;",
+                    "Special thanks to "
+                    ", Dioxus Core Maintainer"
                 }
 
                 div { style: "font-size: 0.9rem;",
