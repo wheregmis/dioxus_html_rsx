@@ -390,7 +390,7 @@ body, html {
 
                 div { style: "margin-bottom: 1rem;",
                     "Special thanks to "
-                    ", Dioxus Core Maintainer"
+                    "Dioxus Core Maintainer"
                 }
 
                 div { style: "font-size: 0.9rem;",
